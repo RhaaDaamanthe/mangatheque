@@ -1,11 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
-</html>
+<?php
+require 'vendor/autoload.php';
+require 'vendor/altorouter/altorouter/AltoRouter.php';
+
+$router = new AltoRouter();
+$router->setBasePath('/mangatheque');
+
+$router->map('GET', '/', 'ControllerPage#homePage', 'homepage');
+
+$match = $router->match();
+
+if(is_array($match)){
+    list($controller, $action) = explode('#', $match['target']);
+    $obj = new $controller();
+
+    if(is_callable(array($obj, $action))){
+        call_user_func_array(array($obj, $action), $match['paranms']);
+    } else {
+        http_response_code(404);
+    }
+}
