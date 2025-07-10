@@ -27,4 +27,9 @@ class ControllerAuth {
 
         require __DIR__ . '/../view/auth/register.php';
     }
+
+    public function login(){
+        require __DIR__ . '/../view/auth/login.php';
+        
+    }
 }
