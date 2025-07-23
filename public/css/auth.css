@@ -1,0 +1,211 @@
+/* public/css/style.css */
+
+/* Variables CSS pour faciliter la gestion des couleurs */
+:root {
+    --primary-color: #3f51b5; /* Un bleu profond, comme l'encre de manga */
+    --secondary-color: #ff4081; /* Un rose vif pour les accents */
+    --text-color: #333;
+    --light-text-color: #666;
+    --background-color: #f0f2f5; /* Gris clair pour le fond */
+    --card-background: #ffffff;
+    --border-color: #e0e0e0;
+    --success-color: #4CAF50;
+    --error-color: #f44336;
+}
+
+/* Styles généraux du corps de la page */
+body {
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Prend toute la hauteur de la fenêtre */
+    color: var(--text-color);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Conteneur principal de la page d'inscription */
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Carte du formulaire d'inscription */
+.register-card {
+    background-color: var(--card-background);
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    padding: 40px;
+    width: 100%;
+    max-width: 450px; /* Largeur maximale pour le formulaire */
+    text-align: center;
+    animation: fadeIn 0.8s ease-out;
+}
+
+/* Animation d'apparition */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Titre et sous-titre */
+.register-title {
+    color: var(--primary-color);
+    font-size: 2.2em;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.register-subtitle {
+    color: var(--light-text-color);
+    font-size: 1.1em;
+    margin-bottom: 30px;
+}
+
+/* Messages (erreur/succès) */
+.message {
+    padding: 12px 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    font-size: 0.95em;
+    font-weight: 500;
+    text-align: left;
+    border: 1px solid;
+}
+
+.message.error {
+    background-color: #ffebee;
+    color: var(--error-color);
+    border-color: #ef9a9a;
+}
+
+.message.success {
+    background-color: #e8f5e9;
+    color: var(--success-color);
+    border-color: #a5d6a7;
+}
+
+/* Formulaire */
+.register-form {
+    text-align: left;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-color);
+    font-weight: 600;
+    font-size: 0.95em;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"] {
+    width: calc(100% - 24px); /* Prend en compte le padding */
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1em;
+    color: var(--text-color);
+    box-sizing: border-box; /* Inclut padding et border dans la largeur */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="password"]:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(63, 81, 181, 0.2); /* Ombre légère au focus */
+}
+
+/* Bouton d'inscription */
+.btn-register {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(63, 81, 181, 0.3);
+}
+
+.btn-register:hover {
+    background-color: #303f9f; /* Teinte plus foncée au survol */
+    transform: translateY(-2px); /* Léger effet de soulèvement */
+}
+
+.btn-register:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(63, 81, 181, 0.3);
+}
+
+/* Lien de connexion */
+.login-link {
+    margin-top: 30px;
+    font-size: 0.95em;
+    color: var(--light-text-color);
+}
+
+.login-link a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.login-link a:hover {
+    color: var(--secondary-color); /* Changement de couleur au survol */
+    text-decoration: underline;
+}
+
+/* Responsive design pour les petits écrans */
+@media (max-width: 600px) {
+    .register-card {
+        margin: 20px;
+        padding: 25px;
+        border-radius: 8px;
+    }
+
+    .register-title {
+        font-size: 1.8em;
+    }
+
+    .register-subtitle {
+        font-size: 1em;
+        margin-bottom: 20px;
+    }
+
+    .form-group input {
+        padding: 10px;
+    }
+
+    .btn-register {
+        padding: 12px;
+        font-size: 1em;
+    }
+}

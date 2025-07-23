@@ -1,18 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page d'accueil</title>
+    <title><?= $title ?? 'Mangathèque' ?></title>
+    
+    <link rel="stylesheet" href="/mangatheque/public/css/auth.css"> 
+    
 </head>
 <body>
     <?php if(isset($_SESSION['error'])) : ?>
-        <div class="error"><?php $_SESSION['error'] ?></div>
+        <div class="message error"><?= $_SESSION['error'] ?></div> 
         <?php unset($_SESSION['error']) ?>
     <?php endif; ?>
 
     <?php if(isset($_SESSION['success'])) : ?>
-        <div class="success"><?php $_SESSION['success'] ?></div>
+        <div class="message success"><?= $_SESSION['success'] ?></div>
         <?php unset($_SESSION['success']) ?>
     <?php endif; ?>
 
