@@ -36,7 +36,7 @@ class ControllerAuth {
                     $userSuccess = $modelUser->getUserByEmail($_POST['email']);
 
                     if($userSuccess && password_verify($_POST['password'], $userSuccess->getPassword())){
-                        $_SESSION['success'] = 'Connexion réussie !';
+                        // $_SESSION['success'] = 'Connexion réussie !';
                         $_SESSION['id'] = $userSuccess->getId();
                         $_SESSION['pseudo'] = $userSuccess->getPseudo();
 
@@ -45,7 +45,7 @@ class ControllerAuth {
                     } else {
                         $_SESSION['error'] = 'Identifiants incorrectes';
 
-                        require __DIR__ . '/../view/auth/login.php';
+                        require __DIR__ . '/../view/auth/';
                         exit;
                     }
                 }
@@ -58,5 +58,6 @@ class ControllerAuth {
              session_unset();
              session_destroy();
              header('Location: /mangatheque/login');
+             exit;
         }
 }

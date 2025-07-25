@@ -1,71 +1,58 @@
 <?php
+// index.php
+
+// Affichage des erreurs PHP (À DÉSACTIVER EN PRODUCTION !)
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
+
 require 'vendor/autoload.php';
 require 'vendor/altorouter/altorouter/AltoRouter.php';
 
-// On crée une instance du routeur
+// Initialisation du routeur
 $router = new AltoRouter();
+$router->setBasePath('/mangatheque'); // Chemin de base de votre application
 
-// On définit le chemin de base de notre application (utile si ton site est dans un sous-dossier)
-$router->setBasePath('/mangatheque');
+// Inclure les contrôleurs
+require 'controller/ControllerAuth.php';
+require 'controller/ControllerPage.php';
+// Ajoutez ici d'autres contrôleurs si nécessaire, ex: require 'controller/ControllerManga.php';
 
-// On déclare une route :
-// Méthode HTTP : GET
-// URL : / (racine du site)
-// Cible : méthode 'homePage' de la classe 'ControllerPage'
-// Nom de la route : 'homepage'
+// Déclaration des routes
 $router->map('GET', '/', 'ControllerPage#homePage', 'homepage');
-
-// User
-$router->map('GET', '/user/[i:id]', 'ControllerUser#oneUserById', 'userPage');
-$router->map('GET', '/user/delete/[i:id]', 'ControllerUser#deleteUserById','userdelete');
-$router->map('GET|POST', '/user/update/[i:id]', 'ControllerUser#updateUser','userUpdate');
-
-// LOGIN REGISTER LOGOUT
+$router->map('GET', '/accueil', 'ControllerPage#homePage', 'accueil_page');
 
 $router->map('GET|POST', '/register', 'ControllerAuth#register', 'register');
 $router->map('GET|POST', '/login', 'ControllerAuth#login', 'login');
+$router->map('GET', '/logout', 'ControllerAuth#logout', 'logout'); // La route de déconnexion
+
+// Détection de la route correspondante
 $match = $router->match();
 
+// Si une correspondance est trouvée
+if ($match) {
+    list($controllerName, $actionName) = explode("#", $match['target']);
 
-// Si une correspondance est trouvée (match est un tableau)
-if(is_array($match)){
-    
-    // On sépare le nom de la classe et le nom de la méthode à appeler
-    list($controller, $action) = explode("#", $match['target']);
-
-    // On crée dynamiquement une instance de la classe contrôleur
-    $obj = new $controller();
-
-    // On vérifie si la méthode spécifiée est bien accessible dans cette classe
-    if(is_callable(array($obj, $action))){
-        
-        // On appelle la méthode avec les paramètres capturés dans l'URL (si il y en a)
-        call_user_func_array(array($obj, $action), $match['params']);
-    
+    // Vérification et exécution du contrôleur et de la méthode
+    if (class_exists($controllerName)) {
+        $controller = new $controllerName();
+        if (is_callable(array($controller, $actionName))) {
+            call_user_func_array(array($controller, $actionName), $match['params']);
+        } else {
+            // Méthode du contrôleur non trouvée
+            http_response_code(404);
+            echo "Erreur 404: La méthode '$actionName' n'existe pas ou n'est pas accessible dans le contrôleur '$controllerName'.";
+        }
     } else {
-        // Si la méthode n'existe pas ou n'est pas accessible, on renvoie une erreur 404
+        // Classe contrôleur non trouvée
         http_response_code(404);
+        echo "Erreur 404: Le contrôleur '$controllerName' n'existe pas.";
     }
+} else {
+    // Aucune route ne correspond à l'URL demandée
+    http_response_code(404);
+    echo "Erreur 404: Page non trouvée.";
 }
-
-// require 'vendor/autoload.php';
-// require 'vendor/altorouter/altorouter/AltoRouter.php';
-
-// $router = new AltoRouter();
-// $router->setBasePath('/mangatheque');
-
-// $router->map( 'GET', '/', 'ControllerPage#homePage', 'homepage');
-
-// $match = $router->match();
-
-// if(is_array($match)){
-//     list($controller, $action) = explode("#", $match['target']);
-//     $obj = new $controller();
-
-//     if(is_callable(array($obj, $action))){
-//         call_user_func_array(array($obj, $action), $match['params']);
-//     } else {
-//         http_response_code(404);
-//     }
-// }
+?>
